@@ -1,4 +1,5 @@
-# LinkedInJobSearch-INFO430
+# JobSearchDatabase
+
 Tables:
 - [x] UserType (regular vs influencer)
 - [x] Gender
@@ -26,12 +27,11 @@ Tables:
 
 
 
-Business rules: (check assignments in google doc: https://docs.google.com/document/d/1o_oB73rdUzYbMu2MnjwLHFvSWBbpU8-GPFMmLb29F7A/edit)
+Business rules:
 - [x] User cannot cancel and restart membership within 3 month period (membership)
 - [x] Influencer can only apply to exec jobs (user type)
 - [x] Age < 30 cannot apply to senior positions (position)
 - [x] Age <18 cannot apply to jobs
-- [Removed] Cannot apply to jobs during national holiday Christmas (job status)
 - [x] Age >24 cannot apply to internships
 - [x] Any job higher than mid level cannot be part-time or intern or apprenticeship
 - [x] One user cannot apply to same job twice (user job)
