@@ -1,4 +1,4 @@
-# JobSearchDatabase
+# Job Search Database Build for INFO 430 Final Project
 
 Tables (Create and populate):
 - [x] UserType
