@@ -1,48 +1,48 @@
 # JobSearchDatabase
 
-Tables:
-- [x] UserType (regular vs influencer)
+Tables (Create and populate):
+- [x] UserType
 - [x] Gender
 - [x] MemebershipType
-- [x] Membership (Jason)
-- [x] User (Jason)
+- [x] Membership
+- [x] User
 
 - [x] UserSeekingStatus
-- [x] JobStatus (Jerray)
+- [x] JobStatus
 - [x] SeekingStatus
-- [x] Status (ONLY job status(active, closed)!!)
-- [x] UserJob (Jerray)
+- [x] Status
+- [x] UserJob
 
-- [x] Role (recruiter vs applicant)
-- [x] Job (Susan)
-- [x] Employer (Susan)
+- [x] Role
+- [x] Job
+- [x] Employer
 - [x] EmployerSize
 - [x] Industry
 
-- [x] Location (Jacob)
-- [x] JobLocation (Jacob)
-- [x] JobType (part-time, full-time, contract/seasonal, internship, apprenticeship)
-- [x] Level (Junior, Mid-level, Senior, Exec)
+- [x] Location
+- [x] JobLocation
+- [x] JobType
+- [x] Level
 - [x] Position
 
 
 
 Business rules:
-- [x] User cannot cancel and restart membership within 3 month period (membership)
-- [x] Influencer can only apply to exec jobs (user type)
-- [x] Age < 30 cannot apply to senior positions (position)
+- [x] User cannot cancel and restart membership within 3 month period
+- [x] Influencer can only apply to exec jobs
+- [x] Age < 30 cannot apply to senior positions
 - [x] Age <18 cannot apply to jobs
 - [x] Age >24 cannot apply to internships
 - [x] Any job higher than mid level cannot be part-time or intern or apprenticeship
-- [x] One user cannot apply to same job twice (user job)
-- [x] One user cannot be both recruiter and applicant for one job (user job)
-- [x] One cannot apply to closed jobs (job)
+- [x] One user cannot apply to same job twice
+- [x] One user cannot be both recruiter and applicant for one job
+- [x] One cannot apply to closed jobs
 - [x] Exec position must have salary > 200k
 - [x] All employers must have at least 1 US location
 - [x] All US software engineer positions has salary > 80k
 
 
-Computed columns: (check assignments in google doc)
+Computed columns:
 - [X] Number of applicants for each job
 - [X] Number of applicants for each company
 - [X] Number of internship positions per company
