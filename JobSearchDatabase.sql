@@ -1,5 +1,5 @@
--- TEAM 8: Susan, Jerray, Jacob, Jason
--- LinkedIn Job Search DB
+-- Contributors: Susan, Jerray, Jacob, Jason
+-- Job Search Database Build for INFO 430 final project
 
 CREATE DATABASE INFO430_Proj_08
 BACKUP DATABASE INFO430_Proj_08 TO DISK = 'C:\SQL\INFO430_Proj_08.BAK'
@@ -7,10 +7,9 @@ BACKUP DATABASE INFO430_Proj_08 TO DISK = 'C:\SQL\INFO430_Proj_08.BAK'
 USE INFO430_Proj_08
 GO
 
--- CREATE TABLE
+-- CREATE TABLES -- 
 
-
--- tblUerType --
+-- tblUserType --
 CREATE TABLE tblUserType
 (UserTypeID INTEGER IDENTITY(1,1) PRIMARY KEY,
 UserTypeName VARCHAR(50) NOT NULL,
@@ -37,12 +36,6 @@ UserTypeID INTEGER FOREIGN KEY(UserTypeID) REFERENCES tblUserType(UserTypeID),
 GenderID INTEGER FOREIGN KEY(GenderID) REFERENCES tblGender(GenderID),
 UserDOB Date NOT NULL);
 
--- ALTER TABLE tblUser DROP FOREIGN KEY MembershipID;
-
--- DROP TABLE tblMembership
--- drop table tblUser
--- DROP TABLE IF EXISTS tblMembership,tblUser;
-
 -- tblMembership --
 CREATE TABLE tblMembership
 (MembershipID INTEGER IDENTITY(1,1) PRIMARY KEY,
@@ -57,8 +50,6 @@ CREATE TABLE tblSeekingStatus
 SeekingStatusName VARCHAR(50) NOT NULL,
 SeekingStatusDescr VARCHAR(200) NULL);
 
-
--- DROP TABLE tblUserSeekingStatus
 -- tblUserSeekingStatus --
 CREATE TABLE tblUserSeekingStatus
 (UserSeekingStatusID INTEGER IDENTITY(1,1) PRIMARY KEY,
@@ -126,8 +117,7 @@ PositionID INTEGER FOREIGN KEY(PositionID) REFERENCES tblPosition(PositionID));
 CREATE TABLE tblJobLocation
 (JobLocationID INTEGER IDENTITY(1,1) PRIMARY KEY,
 LocationID INTEGER FOREIGN KEY(LocationID) REFERENCES tblLocation(LocationID),
-JobID INTEGER FOREIGN KEY(JobID) REFERENCES tblJob(JobID),
-);
+JobID INTEGER FOREIGN KEY(JobID) REFERENCES tblJob(JobID));
  
 -- tblStatus --
 CREATE TABLE tblStatus
@@ -156,7 +146,7 @@ JobID INTEGER FOREIGN KEY(JobID) REFERENCES tblJob(JobID),
 UserID INTEGER FOREIGN KEY(UserID) REFERENCES tblUser(UserID),
 RoleID INTEGER FOREIGN KEY(RoleID) REFERENCES tblRole(RoleID));
 
-
+-- POPULATING LOOK-UP TABLES --
 INSERT INTO tblIndustry 
 (IndustryName)
 VALUES
@@ -373,16 +363,19 @@ VALUES ('Marketing Specialist'),
 ('Online ESL Instructor'),
 ('Professor'),
 ('Assistant Professor')
+
 GO
 
 
--- STORED PROCEDURES AND SYNTHETIC TRANSACTIONS
+-- STORED PROCEDURES AND SYNTHETIC TRANSACTIONS --
 
 USE INFO430_Proj_08
 
--- IMPORTANT --
--- Code for reseeding tables (in case you need to repopulate, change 'tblUser' to name of the table)
--- DBCC CHECKIDENT(tblUser, RESEED, 0)
+/*
+	-- IMPORTANT --
+	Code for reseeding tables (in case you need to repopulate, change 'tblUser' to name of the table)
+	DBCC CHECKIDENT(tblUser, RESEED, 0)
+*/
 
 
 -- GetID Stored Procedures
@@ -568,7 +561,8 @@ SET @Seek_ID = (
 
 GO
  
--- Synthetic Tnx, Insert into tblUser
+-- Insert into tblUser --
+
 CREATE PROCEDURE insertIntoUser
 @UsyTypeNam varchar(50),
 @GenNam varchar(50),
@@ -614,7 +608,8 @@ ELSE
 
 GO
  
--- Wrapper procedure for randomly populating user table
+-- Wrapper procedure for randomly populating tblUser
+
 ALTER PROCEDURE [dbo].[wrapperUser]
 @RUN INTEGER
 AS
@@ -654,7 +649,8 @@ WHILE @RUN > 0
 
 GO
 
--- Synthetic Tnx, Insert into tblMembership
+-- Insert into tblMembership --
+
 ALTER PROCEDURE insertIntoMembership
 @Starty DATE,
 @Enddy DATE,
@@ -703,6 +699,7 @@ ELSE
 GO
 
 -- Wrapper procedure for randomly populating tblMembership
+
 ALTER PROCEDURE [dbo].[wrapperMembership]
 @RUN INTEGER
 AS
@@ -739,7 +736,8 @@ WHILE @RUN > 0
 
 GO
 
--- Synthetic Tnx, Insert into tblEmployer
+-- Insert into tblEmployer --
+
 CREATE PROCEDURE insertIntoEmployer
 @EmpName varchar(50),
 @EmpDescr varchar(200),
@@ -797,6 +795,7 @@ ELSE
 GO
 
 -- Wrapper procedure for randomly populating tblEmployer
+
 ALTER PROCEDURE [dbo].[wrapperEmployer]
 @RUN INTEGER
 AS
@@ -840,7 +839,8 @@ WHILE @RUN > 0
     END
 GO
 
--- Procedure for inserting into JobStatus table
+-- Insert into tblJobStatus --
+
 ALTER PROCEDURE insertIntoJobStatus
 @Job_Title varchar(50),
 @Job_Type_Name varchar(50),
@@ -892,6 +892,7 @@ ELSE
 GO
 
 -- Wrapper procedure for randomly populating tblJobStatus
+
 ALTER PROCEDURE [dbo].[wrapperJobStatus]
 @RUN INTEGER
 AS
@@ -940,6 +941,7 @@ WHILE @RUN > 0
 	END
 GO
 
+-- Insert tblJobLocation --
 
 ALTER PROCEDURE generateJobLocation
 @Job_Title varchar(50),
@@ -995,6 +997,7 @@ GO
 
 
 -- Wrapper procedure for randomly populating tblJobLocation
+
 ALTER PROCEDURE [dbo].[wrapperJobLocation]
 @Run INTEGER
 AS
@@ -1042,7 +1045,7 @@ WHILE @RUN > 0
 	END
 GO
 
--- Synthetic Tnx for inserting into tblUserSeekingStatus
+-- Insert into tblUserSeekingStatus --
 
 ALTER PROCEDURE insertIntoUserSeekingStatus
 @Start_Date DATE,
@@ -1132,7 +1135,7 @@ WHILE @RUN > 0
 GO
 
 
------ Synthetic Tnx for UserJob -------
+-- Insert into tblUserJob --
 
 ALTER PROCEDURE insertIntoUserJob
 @UserF VARCHAR(50),
@@ -1189,7 +1192,8 @@ ELSE
 GO
 
 
--- Procedure for populating userjob
+-- Wrapper procedure for populating tblUserJob --
+
 ALTER PROCEDURE [dbo].[wrapperUserJob]
 @RUN INTEGER
 AS
@@ -1225,10 +1229,7 @@ WHILE @RUN > 0
 GO
 
 
--- COMPUTED COLUMNS AND BUSINESS RULES
-
-USE INFO430_Proj_08
-GO
+-- COMPUTED COLUMNS AND BUSINESS RULES --
 
 -- BUSINESS RULES
 
@@ -1260,7 +1261,7 @@ CHECK (dbo.strozj_influencer_only_exec() = 0)
 GO
 
 
--- 2. Business Rule: Users cannot add a premium membership within 3 months of their last membership expiring
+-- 2. Users cannot add a premium membership within 3 months of their last membership expiring
 
 
 CREATE FUNCTION strozj_membership_3month_restriction()
@@ -1286,7 +1287,7 @@ CHECK (dbo.strozj_membership_3month_restriction() = 0)
 GO
 
 
--- 3. Business Rule: Age < 30 cannot apply to senior level positions
+-- 3. Age < 30 cannot apply to senior level positions
 
 CREATE FUNCTION strozj_young_cannot_apply_senior()
 RETURNS INTEGER
@@ -1342,7 +1343,6 @@ ALTER TABLE tblUserJob with nocheck
 ADD CONSTRAINT CK_NoClosedJobApp
 CHECK (dbo.xuanry_fn_NoClosedJobApp() = 0)
 GO
--- alter table tblUserJob drop constraint CK_NoClosedJobApp
 
 -- 5. All US software engineer positions has salary > 80k
 ALTER FUNCTION xuanry_fn_sde80k()
@@ -1368,7 +1368,6 @@ ALTER TABLE tblJob with nocheck
 ADD CONSTRAINT CK_NoSde80k
 CHECK (dbo.xuanry_fn_sde80k() = 0)
 GO
--- alter table tblJob drop CONSTRAINT CK_NoSde80k
 
 -- 6. Age <18 cannot apply to jobs
 GO
@@ -1396,9 +1395,8 @@ ALTER TABLE tblUserJob WITH NOCHECK
 ADD CONSTRAINT SorryTooYoung18job
 CHECK (dbo.ageUnder18noJob() = 0)
 GO
--- alter table tblUserJob drop constraint SorryTooYoung18job
 
--- 7. no one over age 24 can apply to internships
+-- 7. Nobody over age 24 can apply to internships
 ALTER FUNCTION ageOver24noInternshipUhh()
 RETURNS INTEGER
 AS
@@ -1422,7 +1420,6 @@ ALTER TABLE tblUserJob WITH NOCHECK
 ADD CONSTRAINT ageOver24noInternshipPLEASE
 CHECK (dbo.ageOver24noInternshipUhh() = 0) 
 GO
--- alter table tblUserJob drop constraint ageOver24noInternshipPLEASE
 
 -- 8. Any job higher than mid level cannot be part-time or intern or apprenticeship
 CREATE FUNCTION no_partTime_mid_level_higher()
@@ -1447,7 +1444,6 @@ ALTER TABLE tblJob WITH NOCHECK
 ADD CONSTRAINT Mid_Level_Higher_JobType_Restriction
 CHECK (dbo.no_partTime_mid_level_higher() = 0)
 GO
--- alter table tblJob drop CONSTRAINT Mid_Level_Higher_JobType_Restriction
 
 -- 9. One user cannot apply to same job twice (user job)
 ALTER TABLE tblUserJob ADD CONSTRAINT no_duplicate_application UNIQUE (UserID, JobID);
@@ -1475,14 +1471,9 @@ ADD CONSTRAINT Both_Recruiter_Applicant_Restriction
 CHECK (dbo.cannot_both_recruiter_applicant() = 0)
 GO
 
-
-
-
 -- COMPUTED COLUMNS
-use INFO430_Proj_08
-GO
 
--- 1. The number of female applicants for a job
+-- 1. The number of female applicants for a job on tblJob
  
 CREATE FUNCTION xuanry_fn_total_f_app_job(@PK INT)
 RETURNS INT
@@ -1507,7 +1498,7 @@ ADD Total_Female_Apps AS (dbo.xuanry_fn_total_f_app_job(JobID))
 GO
 
 
--- 2. Computed Column: The number of male applicants for an job
+-- 2. The number of male applicants for an job on tblJob
 
 CREATE FUNCTION xuanry_fn_total_m_app_job(@PK INT)
 RETURNS INT
@@ -1533,7 +1524,7 @@ GO
 
 
 
--- 3. Computed Column: The number of job postings for each company
+-- 3. The number of job postings for each company on tblEmployer
 
 CREATE FUNCTION strozj_fn_total_num_job_postings_per_employer(@PK INT)
 RETURNS INT
@@ -1554,7 +1545,7 @@ ADD Total_Jobs_Posted AS (dbo.strozj_fn_total_num_job_postings_per_employer(Empl
 GO
 
 
--- 4. Computed Column: The number of job postings for each level
+-- 4. The number of job postings for each level on tblLevel
 
 CREATE FUNCTION strozj_fn_total_number_job_postings_per_level(@PK INT)
 RETURNS INT
@@ -1573,7 +1564,8 @@ ALTER TABLE tblLevel
 ADD Total_Jobs_Posted_At_Level AS (dbo.strozj_fn_total_number_job_postings_per_level(LevelID))
 GO
 
--- 5. Number of applicants for each job
+-- 5. Number of applicants for each job on tblJob
+
 ALTER FUNCTION numApplicantsPerJob(@PK INT)
 RETURNS INT
 AS
@@ -1592,7 +1584,8 @@ ADD TotalNumApplicantsPerJob AS
 (dbo.numApplicantsPerJob(JobID)) -- not dbo.
 
 
--- 6. Number of applicants each company
+-- 6. Number of applicants each company on tblEmployer
+
 GO
 CREATE FUNCTION numApplicantsPerCompany(@PK INT)
 RETURNS INT
@@ -1614,7 +1607,8 @@ ADD TotalNumApplicantsPerCompany AS
 (dbo.numApplicantsPerCompany(EmployerID)) 
 GO
 
--- 7. Number of internship positions per company
+-- 7. Number of internship positions per company on tblEmployer
+
 CREATE FUNCTION numInternshipsByCompany(@PK INT)
 RETURNS INT
 AS
@@ -1633,11 +1627,12 @@ GO
 
 ALTER TABLE tblEmployer
 ADD TotalNumInternshipsPerCompany AS 
-(dbo.numInternshipsByCompany(EmployerID)) -- not dbo.
+(dbo.numInternshipsByCompany(EmployerID))
 GO
 
 
--- 8. Total number of jobs with each job status
+-- 8. Total number of jobs with each job status on tblStatus
+
 CREATE FUNCTION total_jobsNumber_each_jobStatus(@PK INT)
 RETURNS INTEGER
 AS
@@ -1658,7 +1653,8 @@ ADD TotalNumberEachJobStatus AS (dbo.total_jobsNumber_each_jobStatus(StatusID))
 GO
 
 
--- 9. Number of members for each membership type
+-- 9. Number of members for each membership type on tblMembershipType
+
 CREATE FUNCTION members_each_type(@PK INT)
 RETURNS INTEGER
 AS
@@ -1680,9 +1676,9 @@ GO
 
 
 -- COMPLEX QUERIES
-USE INFO430_Proj_08
 
--- 1. Complex query: rank the top 10 industries by the number of OPEN job postings 
+-- 1. Rank the top 10 industries by the number of job posting with the 'Open' job status
+
 WITH
     CTE_TOP_IND_POSTING(IndustryID, IndustryName, RankingPosting)
     AS
@@ -1716,7 +1712,8 @@ CREATE VIEW TOP_IND_POSTING AS (
     )
 GO
 
--- 2. Complex query: rank the companies with the highest average pay
+-- 2. Rank the companies with the highest average pay
+
 WITH
     CTE_TOP_EMP_SAL(EmployerID, EmployerName, AvgSalary, RankingSalary)
     AS
@@ -1742,7 +1739,8 @@ CREATE VIEW TOP_EMP_SAL AS (
 GO
 
 
--- 3. Complex query: rank the companies with the highest average pay for intership
+-- 3. Rank the companies with the highest average pay for intership
+
 WITH
     CTE_TOP_EMP_SAL_INTERN(EmployerID, EmployerName, AvgSalary, RankingSalary)
     AS
@@ -1771,7 +1769,8 @@ CREATE VIEW TOP_EMP_SAL_INTERN AS (
     )
 GO
 
--- 4. Average Salary Job Type
+-- 4. Average salary by job type
+
 WITH
     CTE_TOP_SALARY_JOBTYPE(JobTypeID, JobTypeName, AvgSalary, RankingSalary)
     AS
@@ -1797,7 +1796,8 @@ CREATE VIEW TOP_SALARY_JOBTYPE AS (
 GO
 
 
--- 5. User who started a membership in the last month is active member, otherwise is nonactive member
+-- 5. User who started a membership in the last month is an active member, otherwise is a non-active member
+
 SELECT (CASE
         WHEN StartDate > DATEADD(D, -90, GETDATE())
             THEN 'Active'
@@ -1816,6 +1816,7 @@ GROUP BY (CASE
 GO
 
 -- 6. Rank the 10 users that applied to the most number of jobs
+
 WITH CTE_USER_APPLIED_JOBS(UserID, UserFname, UserLname, applied_jobs, RankingPosting)
     AS
     (
@@ -1847,8 +1848,8 @@ CREATE VIEW CTE_USER_APPLIED_JOBS AS
     )
 GO
 
+-- 7. Calculate the 33rd to 66th percentile of cities by their average salaries.
 
--- 7. Calculate the 33 to 66 percentile of cities by their average salaries.
 WITH
     CTE_Cities_Salary(City, avgSalary, nTilePosting)
     AS
@@ -1880,7 +1881,7 @@ GO
 
 USE INFO430_Proj_08
 
--- 8. FIND THE TOP INDUSTRIES BY SUM_SALARY OF ENTRY LEVEL JOBS
+-- 8. Find the top industries by the sum of their salary for entry-level job postings
 WITH CTE_INDUSTRIES_BY_SUM_SALARY_OF_ENTRY_LEVEL_JOBS
 AS (
 	SELECT I.IndustryName, SUM(J.Salary) AS Compensaton_Sum
@@ -1908,7 +1909,7 @@ CREATE VIEW INDUSTRIES_BY_SUM_SALARY_OF_ENTRY_LEVEL_JOBS AS (
 GO
 
 
--- 9. FIND THE TOP 10 CXO JOBS BY SALARY IN INFORMATION TECHNOLOGY
+-- 9. Find the top 10 CXO jobs by highest salary
 WITH CTE_TOP_10_CXO_JOBS_BY_SALARY_IN_INFORMATION_TECHNOLOGY
 AS (
 	SELECT TOP 10 J.JobTitle, J.Salary, P.PositionName
@@ -1939,6 +1940,7 @@ GO
 
 
 -- MISCELLANEOUS: fix job title to not have '.' since it's breaking insertintouserjob
+
 DECLARE @CURREM VARCHAR(200), @CURRPOS INT, @RAND INT, @CURRJOB INT, @RUN INT, @MATCHPOS INT
 SET @RUN = (SELECT COUNT(*) FROM tblJob)
 WHILE @RUN > 0
